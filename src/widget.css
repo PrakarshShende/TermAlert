@@ -1,0 +1,389 @@
+/* ============================================================
+   TermAlert Floating Widget — Shadow DOM Styles
+   ============================================================ */
+
+:host {
+    all: initial;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #e2e8f0;
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Risk color tokens --- */
+.st-risk-low {
+    --st-accent: #10b981;
+    --st-accent-bg: rgba(16, 185, 129, 0.12);
+    --st-glow: 0 0 18px rgba(16, 185, 129, 0.45);
+}
+
+.st-risk-medium {
+    --st-accent: #f59e0b;
+    --st-accent-bg: rgba(245, 158, 11, 0.12);
+    --st-glow: 0 0 18px rgba(245, 158, 11, 0.45);
+}
+
+.st-risk-high {
+    --st-accent: #f43f5e;
+    --st-accent-bg: rgba(244, 63, 94, 0.12);
+    --st-glow: 0 0 18px rgba(244, 63, 94, 0.45);
+}
+
+.st-risk-none {
+    --st-accent: #6366f1;
+    --st-accent-bg: rgba(99, 102, 241, 0.12);
+    --st-glow: 0 0 18px rgba(99, 102, 241, 0.35);
+}
+
+/* ===================== COLLAPSED PILL ===================== */
+
+.st-pill {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 2147483647;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--st-accent, #6366f1);
+    background: linear-gradient(145deg, #1e1b3a, #141225);
+    box-shadow: var(--st-glow, 0 0 18px rgba(99, 102, 241, 0.35)),
+        0 4px 20px rgba(0, 0, 0, 0.5);
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+
+.st-pill:hover {
+    transform: scale(1.08);
+    box-shadow: var(--st-glow, 0 0 24px rgba(99, 102, 241, 0.5)),
+        0 6px 28px rgba(0, 0, 0, 0.6);
+}
+
+.st-pill:active {
+    cursor: grabbing;
+}
+
+.st-pill.st-dragging {
+    cursor: grabbing;
+    transition: none;
+}
+
+.st-pill.st-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.6);
+}
+
+.st-pill-icon {
+    font-size: 22px;
+    line-height: 1;
+    filter: drop-shadow(0 0 4px var(--st-accent, #6366f1));
+}
+
+.st-pill-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--st-accent, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* ===================== EXPANDED DASHBOARD ===================== */
+
+.st-dashboard {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 2147483647;
+    width: 330px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(160deg, #1e1b3a 0%, #141225 100%);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.9) translateY(12px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.st-dashboard.st-visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+}
+
+/* --- Header --- */
+.st-dash-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.st-dash-logo {
+    font-size: 20px;
+    filter: drop-shadow(0 0 4px var(--st-accent, #6366f1));
+}
+
+.st-dash-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f1f5f9;
+    flex: 1;
+}
+
+.st-dash-close {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.06);
+    color: #94a3b8;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.st-dash-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+}
+
+/* --- Score section --- */
+.st-dash-score {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+}
+
+.st-score-ring {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 3px solid var(--st-accent, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--st-accent-bg, rgba(99, 102, 241, 0.1));
+    box-shadow: inset 0 0 12px var(--st-accent-bg, rgba(99, 102, 241, 0.15));
+}
+
+.st-score-number {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--st-accent, #6366f1);
+}
+
+.st-score-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.st-score-verdict {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--st-accent, #6366f1);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.st-score-summary {
+    font-size: 12px;
+    color: #94a3b8;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.45;
+}
+
+/* --- Footer actions --- */
+.st-dash-footer {
+    padding: 12px 16px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.st-btn-analyze {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, var(--st-accent, #6366f1), color-mix(in srgb, var(--st-accent, #6366f1) 70%, #fff));
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.1s ease;
+    letter-spacing: 0.02em;
+}
+
+.st-btn-analyze:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.st-btn-analyze:active {
+    transform: translateY(0);
+}
+
+/* --- Waiting state --- */
+.st-dash-waiting {
+    padding: 20px 16px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.st-dash-waiting .st-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--st-accent, #6366f1);
+    border-radius: 50%;
+    animation: st-spin 0.7s linear infinite;
+    margin-bottom: 8px;
+}
+
+@keyframes st-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===================== TOAST NOTIFICATION ===================== */
+
+.st-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-120%);
+    z-index: 2147483647;
+    max-width: 520px;
+    width: calc(100vw - 40px);
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    background: linear-gradient(145deg, #2d1520, #1e1225);
+    box-shadow: 0 8px 32px rgba(244, 63, 94, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.4s ease;
+}
+
+.st-toast.st-toast-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.st-toast.st-toast-exit {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-120%);
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+.st-toast-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 1px;
+}
+
+.st-toast-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.st-toast-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #f43f5e;
+    margin-bottom: 3px;
+}
+
+.st-toast-msg {
+    font-size: 12px;
+    color: #cbd5e1;
+    line-height: 1.45;
+}
+
+.st-toast-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(255, 255, 255, 0.06);
+    color: #94a3b8;
+    font-size: 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+}
+
+.st-toast-close:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+}
+
+/* --- Progress bar on toast --- */
+.st-toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #f43f5e, #fb7185);
+    border-radius: 0 0 0 12px;
+    animation: st-toast-shrink 8s linear forwards;
+}
+
+@keyframes st-toast-shrink {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}
